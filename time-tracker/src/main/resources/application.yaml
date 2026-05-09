@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: time-tracker
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/timetracker
+    username: postgres
+    password: zilya2103
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+server:
+  port: 8080
