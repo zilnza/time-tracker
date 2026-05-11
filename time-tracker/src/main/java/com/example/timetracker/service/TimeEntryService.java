@@ -36,6 +36,34 @@ public class TimeEntryService {
         return repository.save(entry);
     }
 
+    public List<TimeEntry> getAll() {
+        return repository.findAll();
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    public TimeEntry update(Long id, CreateTimeEntryRequest request) {
+
+        TimeEntry entry = repository.findById(id)
+                .orElseThrow();
+
+        entry.setDescription(request.getDescription());
+        entry.setStartTime(request.getStartTime());
+        entry.setEndTime(request.getEndTime());
+        entry.setTaskType(request.getTaskType());
+
+        double hours = Duration.between(
+                request.getStartTime(),
+                request.getEndTime()
+        ).toHours();
+
+        entry.setHoursSpent(hours);
+
+        return repository.save(entry);
+    }
+
     public ReportResponse getSummary() {
 
         List<TimeEntry> entries = repository.findAll();
