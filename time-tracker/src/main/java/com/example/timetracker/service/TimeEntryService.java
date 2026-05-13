@@ -1,5 +1,6 @@
 package com.example.timetracker.service;
 
+import lombok.extern.slf4j.Slf4j;
 import com.example.timetracker.dto.CreateTimeEntryRequest;
 import com.example.timetracker.dto.ReportResponse;
 import com.example.timetracker.entity.TaskType;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TimeEntryService {
 
     private final TimeEntryRepository repository;
@@ -32,7 +34,7 @@ public class TimeEntryService {
         ).toHours();
 
         entry.setHoursSpent(hours);
-
+        log.info("Creating entry: {}", request.getDescription());
         return repository.save(entry);
     }
 
@@ -41,10 +43,13 @@ public class TimeEntryService {
     }
 
     public void delete(Long id) {
+        log.info("Deleting entry with id: {}", id);
         repository.deleteById(id);
     }
 
     public TimeEntry update(Long id, CreateTimeEntryRequest request) {
+        
+        log.info("Updating entry with id: {}", id);
 
         TimeEntry entry = repository.findById(id)
                 .orElseThrow();
